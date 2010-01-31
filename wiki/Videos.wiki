@@ -1,0 +1,30 @@
+#summary Creating videos with Logstalgia.
+
+== Recording Videos ==
+
+=== Linux / Mac Users ===
+
+You can create a video of Logstalgia using the --output-ppm-stream option. This creates an uncompressed sequence of screenshots in PPM format which can then be processed by another program (such as `ffmpeg`) to produce a video. The below command line will create a video at 60fps in x264 format (assumes you have ffmpeg with x264 support):
+
+{{{
+logstalgia --output-ppm-stream - | ffmpeg -y -b 3000K -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 logstalgia.mp4
+}}}
+
+You can also adjust the output frame rate with `--output-framerate`. Note you will need to adjust the frame rate used by the encoder (eg `ffmpeg -r`) as well.
+
+*Note*: You may need to add '-vpre default' to the ffmpeg command. The exact arguments to ffmpeg may vary depending on the version you have. There is a good guide to using x264 with ffmpeg [http://rob.opendot.cl/index.php/useful-stuff/ffmpeg-x264-encoding-guide/ here].
+
+=== Windows Users ===
+
+On Windows I'd strongly recommend [http://www.fraps.com Fraps]. Fraps works with any program that uses OpenGL or Direct3D and is really really fast (you can capture Logstalgia at 60fps with no slow down).
+
+If you still want to use the built in support:
+
+{{{
+logstalgia --output-ppm-stream ppm.out
+ffmpeg -y -b 3000K -r 60 -f image2pipe -vcodec ppm -i ppm.out -vcodec libx264 logstalgia.x264.avi
+}}}
+
+Afterward you will want to delete the rather large file `ppm.out` containing the uncompressed video data.
+
+You can get `ffmpeg` for windows [http://ffmpeg.arrozcru.org/ here].

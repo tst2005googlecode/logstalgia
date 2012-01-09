@@ -12,27 +12,55 @@ Make sure you keep the window of Logstalgia entirely visible while recording. If
 
 You may want to record your video in widescreen as that is the trend for online video now days. You can record in 720p by adding -1280x720 to the command line. 
 
-=== Linux / Mac Users ===
 
-The below command line will create a video at 60fps in x264 format (assumes you have recent version of ffmpeg with x264 support): 
+=== Linux / Mac ===
+
+==FFmpeg using x264 codec==
+
+The below command lines will create a video at 60fps using the [http://en.wikipedia.org/wiki/X264 x264] codec in an mp4 container.
+
+This assumes you have recent version of ffmpeg *with libx264 support*. Some distributions like Ubuntu do not enable libx264 support by default in ffmpeg (See [http://ubuntuforums.org/showthread.php?t=1117283 this thread] for various ways to [http://ubuntuforums.org/showthread.php?t=1117283 enable libx264 support on Ubuntu]). Consult guides for your distribution if this is the case.
+
+In one command (raw video piped directly into ffmpeg):
 
 {{{
-logstalgia --output-ppm-stream - |  ffmpeg -y -b 3000K -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -vpre slow -threads 0 logstalgia.mp4
+logstalgia -1280x720 -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -crf 1 -threads 0 -bf 0 logstalgia.mp4
 }}}
 
-*Note*: ffmpeg seems to be a constantly moving target, so you may find you need slightly different arguments with your version. You may need to change '-vpre medium' to '-fpre /path/to/libx264-blah.ffpreset', for instance. There is a good guide to using x264 with ffmpeg [http://rob.opendot.cl/index.php/useful-stuff/ffmpeg-x264-encoding-guide/ here]. 
+As two commands:
 
-=== Windows Users ===
+{{{
+logstalgia -1280x720 -o logstalgia.ppm
+ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i logstalgia.ppm -vcodec libx264 -preset ultrafast -crf 1 -threads 0 -bf 0 logstalgia.mp4
+}}}
+
+This one has the advantage of keeping the raw video file (logstalgia.ppm) so you can go back and tweak the encoding parameters if you don't like the output quality or need a different video format without recording the video again. The disadvantage is that this raw uncompressed video and you can expect it to use up 100gs of gigs, so keep that in mind!
+
+You can interchange the extension 'mp4' with 'mkv' or 'avi' to get ffmpeg to use a different container format for the video. 'avi' is typically discouraged for long videos as there is a 2GB file limit associated with that format.
+
+*Note*: *ffmpeg seems to be a constantly moving target*, so you may find you need slightly different arguments with your version. There is a good guide to using x264 with ffmpeg [https://wiki.archlinux.org/index.php/FFmpeg here].
+
+==FFmpeg using WebM codec==
+
+A good alternative codec to x264 is [http://en.wikipedia.org/wiki/WebM WebM]. Below is a very basic command line example of using ffmpeg to produce a Logstalgia WebM video:
+
+{{{
+logstalgia -1280x720 -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b 10000K logstalgia.webm
+}}}
+
+=== Windows ===
 
 On Windows if you aren't too fussed about the precision of the output, you might want to try a direct video capture program like [http://www.fraps.com Fraps]. Fraps works with any program that uses OpenGL or Direct3D and is pretty fast (you can capture Logstalgia at 60fps with no slow down in many cases).
 
 If you don't want to use an external capture program, here is an example command-line using the built in PPM frame capture support, using ffmpeg to generate a video:
 
 {{{
-logstalgia --output-ppm-stream ppm.out
-C:\\ffmpeg\\bin\\ffmpeg -y -b 3000K -r 60 -f image2pipe -vcodec ppm -i ppm.out -vcodec libx264 -fpre "C:\\ffmpeg\\presets\\libx264-slow.ffpreset" -threads 0 logstalgia.x264.avi
+logstalgia -1280x720 -o logstalgia.ppm
+C:\\ffmpeg\\bin\\ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i logstalgia.ppm -vcodec libx264 -preset ultrafast -crf 1 -threads 0 -bf 0 logstalgia.x264.avi
 }}}
 
-*Note*: You may need to adjust the command line to point to where you installed ffmpeg, including the `-fpre` path to libx264-slow.ffpreset.
- 
-You can get `ffmpeg` build for Windows [http://ffmpeg.arrozcru.org/ here]. Guide to [http://rob.opendot.cl/index.php/useful-stuff/ffmpeg-x264-encoding-guide/ ffmpeg x264 encoding].
+You can interchange the extension 'avi' with 'mp4' or 'mkv' to get ffmpeg to use a different container format for the video. 'avi' is typically discouraged for long videos as there is a 2GB file limit associated with that format.
+
+You can get an `ffmpeg` build for Windows from [http://ffmpeg.zeranoe.com/ here]. 
+
+*Note*: *ffmpeg seems to be a constantly moving target*, so you may find you need slightly different arguments with your version. There is a good guide to using x264 with ffmpeg [https://wiki.archlinux.org/index.php/FFmpeg here].

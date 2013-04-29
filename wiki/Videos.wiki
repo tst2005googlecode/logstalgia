@@ -24,14 +24,14 @@ This assumes you have recent version of ffmpeg *with libx264 support*. Some dist
 In one command (raw video piped directly into ffmpeg):
 
 {{{
-logstalgia -1280x720 -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -crf 1 -threads 0 -bf 0 logstalgia.mp4
+logstalgia -1280x720 --output-ppm-stream - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 1 -threads 0 -bf 0 logstalgia.mp4
 }}}
 
 As two commands:
 
 {{{
-logstalgia -1280x720 -o logstalgia.ppm
-ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i logstalgia.ppm -vcodec libx264 -preset ultrafast -crf 1 -threads 0 -bf 0 logstalgia.mp4
+logstalgia -1280x720 --output-ppm-stream logstalgia.ppm
+ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i logstalgia.ppm -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 1 -threads 0 -bf 0 logstalgia.mp4
 }}}
 
 This one has the advantage of keeping the raw video file (logstalgia.ppm) so you can go back and tweak the encoding parameters if you don't like the output quality or need a different video format without recording the video again. The disadvantage is that this raw uncompressed video and you can expect it to use up 100gs of gigs, so keep that in mind!
@@ -45,7 +45,7 @@ You can interchange the extension 'mp4' with 'mkv' or 'avi' to get ffmpeg to use
 A good alternative codec to x264 is [http://en.wikipedia.org/wiki/WebM WebM]. Below is a very basic command line example of using ffmpeg to produce a Logstalgia WebM video:
 
 {{{
-logstalgia -1280x720 -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b 10000K logstalgia.webm
+logstalgia -1280x720 --output-ppm-stream - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b 10000K logstalgia.webm
 }}}
 
 === Windows ===
@@ -55,8 +55,8 @@ On Windows if you aren't too fussed about the precision of the output, you might
 If you don't want to use an external capture program, here is an example command-line using the built in PPM frame capture support, using ffmpeg to generate a video:
 
 {{{
-logstalgia -1280x720 -o logstalgia.ppm
-C:\\ffmpeg\\bin\\ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i logstalgia.ppm -vcodec libx264 -preset ultrafast -crf 1 -threads 0 -bf 0 logstalgia.x264.avi
+logstalgia -1280x720 --output-ppm-stream logstalgia.ppm
+C:\\ffmpeg\\bin\\ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i logstalgia.ppm -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 1 -threads 0 -bf 0 logstalgia.x264.avi
 }}}
 
 You can interchange the extension 'avi' with 'mp4' or 'mkv' to get ffmpeg to use a different container format for the video. 'avi' is typically discouraged for long videos as there is a 2GB file limit associated with that format.

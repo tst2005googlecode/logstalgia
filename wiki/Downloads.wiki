@@ -4,4 +4,4 @@
  * [https://github.com/acaudwell/Logstalgia/releases/download/logstalgia-1.0.5/logstalgia-1.0.5-setup.exe logstalgia-1.0.5-setup.exe]
  * [https://github.com/acaudwell/Logstalgia/releases/download/logstalgia-1.0.5/logstalgia-1.0.5.win32.zip logstalgia-1.0.5.win32.zip]
 
-Past releases hosted on Google Code can be accessed [http://code.google.com/p/logstalgia/downloads/list here]:
+Past releases hosted on Google Code can be accessed [http://code.google.com/p/logstalgia/downloads/list here].

@@ -12,6 +12,7 @@ Make sure you keep the window of Logstalgia entirely visible while recording. If
 
 You may want to record your video in widescreen as that is the trend for online video now days. You can record in 720p by adding -1280x720 to the command line. 
 
+Given the nature of the data in access logs, please consider the implications before posting any videos online and make appropriate redactions.
 
 === Linux / Mac ===
 

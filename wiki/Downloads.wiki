@@ -1,6 +1,4 @@
-#summary One-sentence summary of this page.
-
-1.0.5:
+*1.0.5*:
 
  * [https://github.com/acaudwell/Logstalgia/releases/download/logstalgia-1.0.5/logstalgia-1.0.5.tar.gz logstalgia-1.0.5.tar.gz]
  * [https://github.com/acaudwell/Logstalgia/releases/download/logstalgia-1.0.5/logstalgia-1.0.5-setup.exe logstalgia-1.0.5-setup.exe]
